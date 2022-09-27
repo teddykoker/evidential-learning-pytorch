@@ -1,4 +1,4 @@
-<img src="./examples/mnist.png" width="400px"></img><img src="./examples/cubic.png" width="400px"></img>
+<img src="./examples/mnist.png" width="320px"></img><img src="./examples/cubic.png" width="320px"></img>
 
 ## Evidential Deep Learning in PyTorch
 
@@ -34,7 +34,7 @@ model = nn.Sequential(
 )
 
 x = torch.randn(1, 2)  # (batch, dim)
-y = torch.randint(0, 2, (1, 2))
+y = torch.randint(0, 2, (1, 1))
 
 pred_dirchlet = model(x)  # (1, 2)
 
