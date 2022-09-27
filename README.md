@@ -1,4 +1,4 @@
-<img src="./examples/mnist.png" width="400px"></img><img src="./examples/cubic.png" width="400px"></img>
+<img src="./examples/mnist.png" width="320px"></img><img src="./examples/cubic.png" width="320px"></img>
 
 ## Evidential Deep Learning in PyTorch
 
