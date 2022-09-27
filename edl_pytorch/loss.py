@@ -1,15 +1,11 @@
 import torch
-from torch import nn
 import torch.nn.functional as F
-
-lg = torch.lgamma
-dg = torch.digamma
 
 # Normal Inverse Gamma Negative Log-Likelihood
 # from https://arxiv.org/abs/1910.02600:
 # > we denote the loss, L^NLL_i as the negative logarithm of model
 # > evidence ...
-def nig_nll(y, gamma, v, alpha, beta):
+def nig_nll(gamma, v, alpha, beta, y):
     two_beta_lambda = 2 * beta * (1 + v)
     t1 = 0.5 * (torch.pi / v).log()
     t2 = alpha * two_beta_lambda.log()
@@ -24,7 +20,7 @@ def nig_nll(y, gamma, v, alpha, beta):
 # from https://arxiv.org/abs/1910.02600:
 # > we formulate a novel evidence regularizer, L^R_i
 # > scaled on the error of the i-th prediction
-def nig_reg(y, gamma, v, alpha, _beta):
+def nig_reg(gamma, v, alpha, _beta, y):
     reg = (y - gamma).abs() * (2 * v + alpha)
     return reg.mean()
 
@@ -33,7 +29,7 @@ def nig_reg(y, gamma, v, alpha, _beta):
 # from https://arxiv.org/abs/1806.01768
 # code based on:
 # https://bariskurt.com/kullback-leibler-divergence-between-two-dirichlet-and-beta-distributions/
-def dirichlet_reg(y, alpha):
+def dirichlet_reg(alpha, y):
     # dirichlet parameters after removal of non-misleading evidence (from the label)
     alpha = y + (1 - y) * alpha
 
@@ -54,7 +50,7 @@ def dirichlet_reg(y, alpha):
 
 # Eq. (5) from https://arxiv.org/abs/1806.01768:
 # Sum of squares loss
-def dirichlet_mse(y, alpha):
+def dirichlet_mse(alpha, y):
     sum_alpha = alpha.sum(-1, keepdims=True)
     p = alpha / sum_alpha
     t1 = (y - p).pow(2).sum(-1)
@@ -63,11 +59,11 @@ def dirichlet_mse(y, alpha):
     return mse.mean()
 
 
-def evidential_classification(y, alpha, lamb=1.0):
+def evidential_classification(alpha, y, lamb=1.0):
     num_classes = alpha.shape[-1]
     y = F.one_hot(y, num_classes)
-    return dirichlet_mse(y, alpha) + lamb * dirichlet_reg(y, alpha)
+    return dirichlet_mse(alpha, y) + lamb * dirichlet_reg(alpha, y)
 
 
-def evidential_regression(y, dist_params, lamb=1.0):
-    return nig_nll(y, *dist_params) + lamb * nig_reg(y, *dist_params)
+def evidential_regression(dist_params, y, lamb=1.0):
+    return nig_nll(*dist_params, y) + lamb * nig_reg(*dist_params, y)

@@ -2,8 +2,8 @@ from setuptools import setup, find_packages
 
 setup(
     name="edl-pytorch",
-    packages=find_packages(),
-    version="0.0.1",
+    packages=find_packages(exclude=["examples"]),
+    version="0.0.2",
     license="MIT",
     description="Evidential Learning in Pytorch",
     author="Teddy Koker",

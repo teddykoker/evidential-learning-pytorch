@@ -1,4 +1,4 @@
-<img src="./edl.png" width="256px"></img>
+<img src="./examples/mnist.png" width="256px"></img><img src="./examples/cubic.png" width="256px"></img>
 
 ## Evidential Deep Learning in PyTorch
 
@@ -35,8 +35,8 @@ y = torch.randint(0, 2, (1, 2))
 pred_dirchlet = model(x)  # (1, 2)
 
 loss = evidential_classification(
-    y,             # target labels
     pred_dirchlet, # predicted Dirichlet parameters
+    y,             # target labels
     lamb=0.001,    # regularization coefficient 
 )
 ```
@@ -61,8 +61,8 @@ y = torch.randn(1, 1)
 pred_nig = model(x)  # (mu, v, alpha, beta)
 
 loss = evidential_regression(
-    y,             # target labels
     pred_nig,      # predicted Normal Inverse Gamma parameters
+    y,             # target labels
     lamb=0.001,    # regularization coefficient 
 )
 ```
@@ -76,8 +76,8 @@ loss = evidential_regression(
 
 ## Todo
 
+ - [X] add examples
  - [ ] allow specification of evidence function, currently `F.softplus`
- - [ ] add examples
 
 
 ## Citations
