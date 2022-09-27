@@ -1,4 +1,4 @@
-<img src="./examples/mnist.png" width="256px"></img><img src="./examples/cubic.png" width="256px"></img>
+<img src="./examples/mnist.png" width="400px"></img><img src="./examples/cubic.png" width="400px"></img>
 
 ## Evidential Deep Learning in PyTorch
 
@@ -14,6 +14,10 @@ pip install edl_pytorch
 ```
 
 ## Usage
+
+See [examples/mnist.py](examples/mnist.py) and
+[examples/cubic.py](examples/cubic.py) for examples of classification/regression
+respectively, producing the figures above.
 
 For classification, use the `Dirichlet` layer as the final layer in the model
 and `evidential_classification` loss:
